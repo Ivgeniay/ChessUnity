@@ -6,7 +6,7 @@ public class White : MonoBehaviour
 {
 
     private Transform boardTransform;
-    [SerializeField] private IEnumerable<FigureConfig> resources;
+    private ResourcesChess resources;
     private Dictionary<string, Figure> allFigures;
     private string[] vertical = new[]{ "A", "B", "C", "D", "E", "F", "G", "H"};
 
@@ -14,7 +14,7 @@ public class White : MonoBehaviour
     {
         boardTransform = GetComponentInChildren<Board>().transform;
         allFigures = new Dictionary<string, Figure>();
-        resources = Resources.LoadAll<FigureConfig>("ScriptableObjects");
+        resources = GetComponent<ResourcesChess>();
     }
 
     public void StartPosition()
@@ -41,7 +41,7 @@ public class White : MonoBehaviour
             if (parentTransform.childCount > 0) return;
             var newFigure = Instantiate(new GameObject(), Vector3.zero, Quaternion.identity, parentTransform);
             var script = newFigure.AddComponent<Figure>();
-            foreach (var e in resources)
+            foreach (var e in resources.GetResourses())
             {
                 if (e.name == figure) 
                 {

@@ -4,12 +4,14 @@ using UnityEngine;
 public class Game : MonoBehaviour
 {
     private Board board;
+    private ResourcesChess resourcesChess;
     private CellGenerator cellGenerator;
     private Black black;
     private White white;
 
     void Awake()
     {
+        resourcesChess = gameObject.AddComponent<ResourcesChess>();
         board = GetComponentInChildren<Board>();
         cellGenerator = GetComponentInChildren<CellGenerator>();
         black = gameObject.AddComponent<Black>();
@@ -20,16 +22,13 @@ public class Game : MonoBehaviour
         cellGenerator.Generate();
         black.StartPosition();
         white.StartPosition();
-        Debug.Log(board.GetBoardPosition());
-        
-        
-        board.SetBoardPosition("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
-        //board.StartPosition();
-        //StartCoroutine(test());
+
     }
 
-    private void Update() {
-        if (Input.GetKey(KeyCode.Space)) Debug.Log(board.GetBoardPosition());
+    private void Update() 
+    {
+        if (Input.GetKeyUp(KeyCode.Space)) Debug.Log(board.GetBoardPosition());
+        if (Input.GetKeyUp(KeyCode.UpArrow)) board.SetBoardPosition(board.GetBoardPosition());
     }
 
 
@@ -40,7 +39,7 @@ public enum Role
 {
     King,
     Queen,
-    Rock,
+    Rook,
     Bishop,
     Knight,
     pawn
