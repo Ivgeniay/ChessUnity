@@ -1,25 +1,22 @@
-using System.Net.Mime;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 //Board keep statement
 public class Board : MonoBehaviour
 {
     [SerializeField] private IEnumerable<FigureConfig> resources;
-    private Dictionary<string, IFigure> allFigures;
+    private Dictionary<string, Figure> allFigures;
     private string[] vertical = new[]{ "A", "B", "C", "D", "E", "F", "G", "H"};
 
     void Awake()
     {
-        allFigures = new Dictionary<string, IFigure>();
+        allFigures = new Dictionary<string, Figure>();
         resources = Resources.LoadAll<FigureConfig>("ScriptableObjects");
     }
 
     public void StartPosition()
     {
-        allFigures.Clear();
+        ClearDictionary(allFigures);
 
         for (int i = 0; i < 8; i++)
         {
@@ -60,4 +57,15 @@ public class Board : MonoBehaviour
             }
             allFigures.Add(position, script);
     }
+
+    private void ClearDictionary(Dictionary<string, Figure> dictionary)
+    {
+        foreach (KeyValuePair<string, Figure> e in  dictionary)
+        {
+            Destroy(e.Value.gameObject);
+        }
+        dictionary.Clear();
+    }
+
+    //private void 
 }
