@@ -21,34 +21,19 @@ public class White : MonoBehaviour
     {
         ClearDictionary(allFigures);
 
+
         for (int i = 0; i < 8; i++)
         {
-            CreateNewFigure($"{vertical[i]}2", "WhitePawn");
-            CreateNewFigure($"{vertical[0]}1", "WhiteRook");
-            CreateNewFigure($"{vertical[7]}1", "WhiteRook");
-            CreateNewFigure($"{vertical[1]}1", "WhiteKnight");
-            CreateNewFigure($"{vertical[6]}1", "WhiteKnight");
-            CreateNewFigure($"{vertical[2]}1", "WhiteBishop");
-            CreateNewFigure($"{vertical[5]}1", "WhiteBishop");
-            CreateNewFigure($"{vertical[3]}1", "WhiteQueen");
-            CreateNewFigure($"{vertical[4]}1", "WhiteKing");
+            CreateNewFigure.New($"{vertical[i]}2", "WhitePawn");
+            CreateNewFigure.New($"{vertical[0]}1", "WhiteRook");
+            CreateNewFigure.New($"{vertical[7]}1", "WhiteRook");
+            CreateNewFigure.New($"{vertical[1]}1", "WhiteKnight");
+            CreateNewFigure.New($"{vertical[6]}1", "WhiteKnight");
+            CreateNewFigure.New($"{vertical[2]}1", "WhiteBishop");
+            CreateNewFigure.New($"{vertical[5]}1", "WhiteBishop");
+            CreateNewFigure.New($"{vertical[3]}1", "WhiteQueen");
+            CreateNewFigure.New($"{vertical[4]}1", "WhiteKing");
         }
-    }
-
-    private void CreateNewFigure(string position, string figure)
-    {
-            var parentTransform = boardTransform.Find(position);
-            if (parentTransform.childCount > 0) return;
-            var newFigure = Instantiate(new GameObject(), Vector3.zero, Quaternion.identity, parentTransform);
-            var script = newFigure.AddComponent<Figure>();
-            foreach (var e in resources.GetResourses())
-            {
-                if (e.name == figure) 
-                {
-                    script.Appoint(e);
-                }
-            }
-            allFigures.Add(position, script);
     }
 
     private void ClearDictionary(Dictionary<string, Figure> dictionary)

@@ -22,33 +22,17 @@ public class Black : MonoBehaviour
 
         for (int i = 0; i < 8; i++)
         {
-            CreateNewFigure($"{vertical[i]}7", "BlackPawn");
-            CreateNewFigure($"{vertical[0]}8", "BlackRook");
-            CreateNewFigure($"{vertical[7]}8", "BlackRook");
-            CreateNewFigure($"{vertical[1]}8", "BlackKnight");
-            CreateNewFigure($"{vertical[6]}8", "BlackKnight");
-            CreateNewFigure($"{vertical[2]}8", "BlackBishop");
-            CreateNewFigure($"{vertical[5]}8", "BlackBishop");
-            CreateNewFigure($"{vertical[3]}8", "BlackQueen");
-            CreateNewFigure($"{vertical[4]}8", "BlackKing");
+            CreateNewFigure.New($"{vertical[i]}7", "BlackPawn");
+            CreateNewFigure.New($"{vertical[0]}8", "BlackRook");
+            CreateNewFigure.New($"{vertical[7]}8", "BlackRook");
+            CreateNewFigure.New($"{vertical[1]}8", "BlackKnight");
+            CreateNewFigure.New($"{vertical[6]}8", "BlackKnight");
+            CreateNewFigure.New($"{vertical[2]}8", "BlackBishop");
+            CreateNewFigure.New($"{vertical[5]}8", "BlackBishop");
+            CreateNewFigure.New($"{vertical[3]}8", "BlackQueen");
+            CreateNewFigure.New($"{vertical[4]}8", "BlackKing");
 
         }
-    }
-
-    private void CreateNewFigure(string position, string figure)
-    {
-            var parentTransform = boardTransform.Find(position);
-            if (parentTransform.childCount > 0) return;
-            var newFigure = Instantiate(new GameObject(), Vector3.zero, Quaternion.identity, parentTransform);
-            var script = newFigure.AddComponent<Figure>();
-            foreach (var e in resources.GetResourses())
-            {
-                if (e.name == figure) 
-                {
-                    script.Appoint(e);
-                }
-            }
-            allFigures.Add(position, script);
     }
 
     private void ClearDictionary(Dictionary<string, Figure> dictionary)

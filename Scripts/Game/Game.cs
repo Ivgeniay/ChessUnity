@@ -28,7 +28,7 @@ public class Game : MonoBehaviour
     private void Update() 
     {
         if (Input.GetKeyUp(KeyCode.Space)) Debug.Log(board.GetBoardPosition());
-        if (Input.GetKeyUp(KeyCode.UpArrow)) board.SetBoardPosition(board.GetBoardPosition());
+        if (Input.GetKeyUp(KeyCode.UpArrow)) board.SetBoardPosition("rnbqkbnr/pp3ppp/2p1p3/3p4/3P4/2P1P3/PP3PPP/RNBQKBNR");
     }
 
 

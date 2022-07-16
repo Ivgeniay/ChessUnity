@@ -1,6 +1,7 @@
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 //Board keep statement
 public class Board : MonoBehaviour
@@ -86,10 +87,13 @@ public class Board : MonoBehaviour
         //vertical
         for (int i = 0; i < 8; i++)
         {
-            createLineFigure(array[i], i+1); 
+            var line = 8-i;
+            var code = convertCode(array[i]);
+            createLineFigure(code, line); 
         }
         
     }
+    //parse code rnbqkbnr/pppppppp/8/PPPPP1P1/8/8/P1P5/RNBQKBNR to array
     private string[] parseString(string position)
     {
         string[] parts = position.Split('/');
@@ -112,6 +116,43 @@ public class Board : MonoBehaviour
 
         return result;
     }
+
+    //parce code 2p2p2 to 11p11p11
+    private string convertCode(string code)
+    {
+        var result = "";
+
+        if (code.Length == 8) return code;
+
+        if (code.Length > 8) throw new System.Exception ("Not support the code");
+
+        if (code.Length < 8)
+        {
+            Debug.Log("CODE:" + code);
+
+            for(int i = 0; i < code.Length; i++)
+            {
+                if (Char.IsNumber(code[i]))
+                {
+                    int counter = 0;
+                    int integerNum = code[i] - '0';
+
+                    for(int j = 0; j < integerNum; j++)
+                    {
+                        result += 1;
+                    }
+                }
+                else
+                {
+                    result += code[i];
+                }
+            }
+        }
+
+        Debug.Log(result);
+        return result;
+    }
+
     private void deleteAllFigures()
     {
         for(int i = 1; i <= 8; i++)
@@ -128,52 +169,39 @@ public class Board : MonoBehaviour
     //horizontall
     private void createLineFigure(string code, int line)
     {
-        if(code.Length == 8)
+        for(int i = 0; i < code.Length; i++)
         {
-            for(int i = 0; i < code.Length; i++)
-            {
-                if (code[i] == 'K') 
-                    CreateNewFigure($"{vertical[i]}{line}", "WhiteKing");
-                if (code[i] == 'k')
-                    CreateNewFigure($"{vertical[i]}{line}", "BlackKing");
-                if (code[i] == 'B') 
-                    CreateNewFigure($"{vertical[i]}{line}", "WhiteBishop");
-                if (code[i] == 'b')
-                    CreateNewFigure($"{vertical[i]}{line}", "BlackBishop");
-                if (code[i] == 'N') 
-                    CreateNewFigure($"{vertical[i]}{line}", "WhiteKnight");
-                if (code[i] == 'n')
-                    CreateNewFigure($"{vertical[i]}{line}", "BlackKnight");
-                if (code[i] == 'Q') 
-                    CreateNewFigure($"{vertical[i]}{line}", "WhiteQueen");
-                if (code[i] == 'q')
-                    CreateNewFigure($"{vertical[i]}{line}", "BlackQueen");
-                if (code[i] == 'R') 
-                    CreateNewFigure($"{vertical[i]}{line}", "WhiteRook");
-                if (code[i] == 'r')
-                    CreateNewFigure($"{vertical[i]}{line}", "BlackRook");
-                if (code[i] == 'P') 
-                    CreateNewFigure($"{vertical[i]}{line}", "WhitePawn");
-                if (code[i] == 'p')
-                    CreateNewFigure($"{vertical[i]}{line}", "BlackPawn");
-            }
+            if (code[i] == 'K') 
+                CreateNewFigure.New($"{vertical[i]}{line}", "WhiteKing");
+            if (code[i] == 'k')
+                CreateNewFigure.New($"{vertical[i]}{line}", "BlackKing");
+            if (code[i] == 'B') 
+                CreateNewFigure.New($"{vertical[i]}{line}", "WhiteBishop");
+            if (code[i] == 'b')
+                CreateNewFigure.New($"{vertical[i]}{line}", "BlackBishop");
+            if (code[i] == 'N') 
+                CreateNewFigure.New($"{vertical[i]}{line}", "WhiteKnight");
+            if (code[i] == 'n')
+                CreateNewFigure.New($"{vertical[i]}{line}", "BlackKnight");
+            if (code[i] == 'Q') 
+                CreateNewFigure.New($"{vertical[i]}{line}", "WhiteQueen");
+            if (code[i] == 'q')
+                CreateNewFigure.New($"{vertical[i]}{line}", "BlackQueen");
+            if (code[i] == 'R') 
+                CreateNewFigure.New($"{vertical[i]}{line}", "WhiteRook");
+            if (code[i] == 'r')
+                CreateNewFigure.New($"{vertical[i]}{line}", "BlackRook");
+            if (code[i] == 'P') 
+                CreateNewFigure.New($"{vertical[i]}{line}", "WhitePawn");
+            if (code[i] == 'p')
+                CreateNewFigure.New($"{vertical[i]}{line}", "BlackPawn");
         }
+
     }
 
-    private void CreateNewFigure(string position, string figure)
-    {
-        Debug.Log(position + " " + figure);
-        var parentTransform = transform.Find(position);
-        var newFigure = Instantiate(new GameObject(), Vector3.zero, Quaternion.identity, parentTransform);
-        var script = newFigure.AddComponent<Figure>();
-        foreach (var e in resources.GetResourses())
-        {
-            if (e.name == figure) 
-            {
-                script.Appoint(e);
-            }
-        }
-    }
+
+
+
 
 
 

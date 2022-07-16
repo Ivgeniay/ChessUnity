@@ -6,14 +6,14 @@ using UnityEngine;
 
 public class ResourcesChess : MonoBehaviour 
 {
-    [SerializeField] private IEnumerable<FigureConfig> resources;
+    [SerializeField] private static IEnumerable<FigureConfig> resources;
 
     void Awake()
     {
         resources = Resources.LoadAll<FigureConfig>("ScriptableObjects");
     }
 
-    public IEnumerable<FigureConfig> GetResourses()
+    public static IEnumerable<FigureConfig> GetResourses()
     {
         return resources;
     }
