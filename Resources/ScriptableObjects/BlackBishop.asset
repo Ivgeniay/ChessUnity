@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: BlackBishop
   m_EditorClassIdentifier: 
   _sprite: {fileID: 21300000, guid: 9e055839dcdb41d48a4b83c2d469af78, type: 3}
-  _color: Black
+  _color: 1
   _role: 3

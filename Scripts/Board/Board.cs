@@ -2,12 +2,14 @@ using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Collections;
 
 //Board keep statement
 public class Board : MonoBehaviour
 {
-    private string[] vertical = new[]{ "A", "B", "C", "D", "E", "F", "G", "H"};
+    public event Action<Figure> OnActionFigureLifted;
     public ResourcesChess resources;
+    public List<Figure> figureList;
 
     void Start()
     {
@@ -22,9 +24,9 @@ public class Board : MonoBehaviour
         {
             int counter = 0;
 
-            for(int j = 0; j < 8; j++)
+            for(int j = 0; j < 8; j++) 
             {
-                var children = transform.Find($"{vertical[j]}{i}");
+                var children = transform.Find($"{Constants.vertical[j]}{i}");
                 if (children.childCount > 0)
                 {
                     string str = "";
@@ -44,6 +46,28 @@ public class Board : MonoBehaviour
         }
 
         return report;
+    }
+
+
+    public void SetBoardPosition(string position)
+    {
+        StartCoroutine(setBoardPosition(position));
+    }
+
+    private IEnumerator setBoardPosition(string position)
+    {
+        deleteAllFigures();
+
+        yield return null;
+
+        var array = parseString(position);
+
+        for (int i = 0; i < 8; i++)
+        {
+            var line = 8-i;
+            var code = convertCode(array[i]);
+            createLineFigure(code, line); 
+        }
     }
 
     private string separate(FigureConfig conf, string CellName)
@@ -72,26 +96,19 @@ public class Board : MonoBehaviour
                 break;
         }
 
-        if (conf.Color == "Black") 
+        if (conf.Color == ColorList.Black) 
             report = report.ToLower();
         else
             report = report.ToUpper();
 
-        return report;
-    }
-    public void SetBoardPosition(string position)
-    {
-        deleteAllFigures();
-        var array = parseString(position);
+        // report = conf.Role.ToString() ;
+        // Debug.Log(report);
 
-        //vertical
-        for (int i = 0; i < 8; i++)
-        {
-            var line = 8-i;
-            var code = convertCode(array[i]);
-            createLineFigure(code, line); 
-        }
-        
+        // if (conf.Color == ColorList.Black)
+        //     report = report.ToLower();
+
+
+        return report;
     }
     //parse code rnbqkbnr/pppppppp/8/PPPPP1P1/8/8/P1P5/RNBQKBNR to array
     private string[] parseString(string position)
@@ -116,7 +133,6 @@ public class Board : MonoBehaviour
 
         return result;
     }
-
     //parce code 2p2p2 to 11p11p11
     private string convertCode(string code)
     {
@@ -128,13 +144,12 @@ public class Board : MonoBehaviour
 
         if (code.Length < 8)
         {
-            Debug.Log("CODE:" + code);
+            //Debug.Log("CODE:" + code);
 
             for(int i = 0; i < code.Length; i++)
             {
                 if (Char.IsNumber(code[i]))
                 {
-                    int counter = 0;
                     int integerNum = code[i] - '0';
 
                     for(int j = 0; j < integerNum; j++)
@@ -149,60 +164,76 @@ public class Board : MonoBehaviour
             }
         }
 
-        Debug.Log(result);
         return result;
     }
-
-    private void deleteAllFigures()
+    public void deleteAllFigures()
     {
-        for(int i = 1; i <= 8; i++)
+        foreach(Transform child in transform)
         {
-            for(int j = 0; j < 8; j++)
+            foreach (Transform childchild in child)
             {
-                var children = transform.Find($"{vertical[j]}{i}");
-                if (children.childCount > 0)
-                    Destroy(children.GetComponentInChildren<Figure>().gameObject);
+                Debug.Log(childchild.name + " is destroed");
+                Destroy(childchild.gameObject);
             }
         }
-    }
 
+        foreach(Figure e in figureList)
+        {
+            e.OnActionFigureLifted -= OnActionFigureLiftedHandler;
+        }
+        figureList.Clear();
+    }
     //horizontall
     private void createLineFigure(string code, int line)
     {
         for(int i = 0; i < code.Length; i++)
         {
             if (code[i] == 'K') 
-                CreateNewFigure.New($"{vertical[i]}{line}", "WhiteKing");
+                createFig($"{Constants.vertical[i]}{line}", "WhiteKing");
             if (code[i] == 'k')
-                CreateNewFigure.New($"{vertical[i]}{line}", "BlackKing");
+                createFig($"{Constants.vertical[i]}{line}", "BlackKing");
             if (code[i] == 'B') 
-                CreateNewFigure.New($"{vertical[i]}{line}", "WhiteBishop");
+                createFig($"{Constants.vertical[i]}{line}", "WhiteBishop");
             if (code[i] == 'b')
-                CreateNewFigure.New($"{vertical[i]}{line}", "BlackBishop");
+                createFig($"{Constants.vertical[i]}{line}", "BlackBishop");
             if (code[i] == 'N') 
-                CreateNewFigure.New($"{vertical[i]}{line}", "WhiteKnight");
+                createFig($"{Constants.vertical[i]}{line}", "WhiteKnight");
             if (code[i] == 'n')
-                CreateNewFigure.New($"{vertical[i]}{line}", "BlackKnight");
+                createFig($"{Constants.vertical[i]}{line}", "BlackKnight");
             if (code[i] == 'Q') 
-                CreateNewFigure.New($"{vertical[i]}{line}", "WhiteQueen");
+                createFig($"{Constants.vertical[i]}{line}", "WhiteQueen");
             if (code[i] == 'q')
-                CreateNewFigure.New($"{vertical[i]}{line}", "BlackQueen");
+                createFig($"{Constants.vertical[i]}{line}", "BlackQueen");
             if (code[i] == 'R') 
-                CreateNewFigure.New($"{vertical[i]}{line}", "WhiteRook");
+                createFig($"{Constants.vertical[i]}{line}", "WhiteRook");
             if (code[i] == 'r')
-                CreateNewFigure.New($"{vertical[i]}{line}", "BlackRook");
+                createFig($"{Constants.vertical[i]}{line}", "BlackRook");
             if (code[i] == 'P') 
-                CreateNewFigure.New($"{vertical[i]}{line}", "WhitePawn");
+                createFig($"{Constants.vertical[i]}{line}", "WhitePawn");
             if (code[i] == 'p')
-                CreateNewFigure.New($"{vertical[i]}{line}", "BlackPawn");
+                createFig($"{Constants.vertical[i]}{line}", "BlackPawn");
         }
 
     }
 
+    public void createFig(string position, string figure)
+    {
+        var newfig = CreateNewFigure.New(position, figure);
+        var figureScr = newfig.GetComponent<Figure>();
+        figureScr.OnActionFigureLifted += OnActionFigureLiftedHandler;
+        figureList.Add(figureScr);
 
-
-
-
+    }
+    private void deleteFig(Figure figure)
+    {
+        Destroy(figure.gameObject);
+        figure.OnActionFigureLifted -= OnActionFigureLiftedHandler;
+        figureList.Remove(figure);
+    }
+    private void OnActionFigureLiftedHandler(Figure obj)
+    {
+        OnActionFigureLifted?.Invoke(obj);
+    }
 
 
 }

@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: BlackPawn
   m_EditorClassIdentifier: 
   _sprite: {fileID: 21300000, guid: b4917f19643f27c4fbd8fea24e42385e, type: 3}
-  _color: Black
+  _color: 1
   _role: 5

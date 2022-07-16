@@ -5,15 +5,15 @@ using UnityEngine.UI;
 
 public class Figure : MonoBehaviour, IFigure
 {
+    public event Action<Figure> OnActionFigureLifted;
     public FigureConfig figureConfig {get; private set; }
 
     private Image image;
     private Canvas mainCanvas;
     private CanvasGroup canvasGroup;
     private RectTransform figureRectTransform;
-    private Transform pastCellTransform;
-    private Transform boardTransform;
-    private float sizing;
+    private float sizing = 1.8f;
+    public bool isMooved { get; set; } = false;
 
     private void Awake()
     {
@@ -21,9 +21,6 @@ public class Figure : MonoBehaviour, IFigure
         canvasGroup = gameObject.AddComponent<CanvasGroup>();
         image = gameObject.AddComponent<Image>();
         figureRectTransform = gameObject.GetComponent<RectTransform>();
-        boardTransform = GetComponentInParent<Board>().transform;
-        pastCellTransform = GetComponentInParent<Transform>();
-        sizing = 1.8f;
     }
 
     public void Appoint(FigureConfig figureConfig)
@@ -43,6 +40,7 @@ public class Figure : MonoBehaviour, IFigure
     public void OnBeginDrag(PointerEventData eventData)
     {
         canvasGroup.blocksRaycasts = false;
+        OnActionFigureLifted?.Invoke(this);
     }
     public void OnDrag(PointerEventData eventData)
     {

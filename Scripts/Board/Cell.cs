@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 
 public class Cell : MonoBehaviour, IDropHandler
 {
-    public event Action OnActionMoveMade;
+    public event Action<Figure> OnActionFigureWasPlaced;
 
     public void OnDrop(PointerEventData eventData)
     {
@@ -13,8 +13,10 @@ public class Cell : MonoBehaviour, IDropHandler
 
         if (transform.childCount == 0)
         {
+            if (!figureScr.isMooved) figureScr.isMooved = true; 
             figure.SetParent(transform);
             figure.localPosition = Vector3.zero;
+            OnActionFigureWasPlaced?.Invoke(figureScr);
         }
 
     }

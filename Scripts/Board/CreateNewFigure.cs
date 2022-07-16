@@ -8,7 +8,7 @@ public static class CreateNewFigure
         get {
             if (_instance == null)
             {
-                var go = new GameObject("[EMPTYOBJECT]");
+                var go = new GameObject("[EMPTY_OBJECT]");
                 _instance = go;
             }
             return _instance;
@@ -19,10 +19,10 @@ public static class CreateNewFigure
     public static GameObject New(string position, string figure)
     {
         var parentTransform = GameObject.Find(position).transform;
-        if (parentTransform.childCount > 1) return null;
+        if (parentTransform.childCount > 0) return null;
         var newFigure = Instant.InstantiateNewGO(instance, parentTransform);
         var script = newFigure.AddComponent<Figure>();
-        foreach (var e in ResourcesChess.GetResourses())//resources.GetResourses())
+        foreach (var e in ResourcesChess.GetResourses())
         {
             if (e.name == figure) 
             {

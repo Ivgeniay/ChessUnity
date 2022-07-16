@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: BlackKnight
   m_EditorClassIdentifier: 
   _sprite: {fileID: 21300000, guid: fa0f6733f39c67546a9aa3254480e97f, type: 3}
-  _color: Black
+  _color: 1
   _role: 4

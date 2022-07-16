@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -6,43 +7,50 @@ public class Game : MonoBehaviour
     private Board board;
     private ResourcesChess resourcesChess;
     private CellGenerator cellGenerator;
-    private Black black;
-    private White white;
+    private Fen fen;
 
     void Awake()
     {
         resourcesChess = gameObject.AddComponent<ResourcesChess>();
-        board = GetComponentInChildren<Board>();
         cellGenerator = GetComponentInChildren<CellGenerator>();
-        black = gameObject.AddComponent<Black>();
-        white = gameObject.AddComponent<White>();
+        board = GetComponentInChildren<Board>();
+        fen = new Fen(board);
     }
     void Start()
     {
         cellGenerator.Generate();
-        black.StartPosition();
-        white.StartPosition();
-
+        board.SetBoardPosition(fen.StartPosition());
     }
 
-    private void Update() 
+    private void OnActionFigureLiftedHandler(Figure obj)
+    {
+        Debug.Log(obj.name + " from " + obj.transform.parent.name);
+    }
+
+    private void OnActionFigureWasPlacedHandler(Figure obj)
+    {
+        Debug.Log(obj.name + " to " + obj.transform.parent.name);
+    }
+
+  private void Update() 
     {
         if (Input.GetKeyUp(KeyCode.Space)) Debug.Log(board.GetBoardPosition());
-        if (Input.GetKeyUp(KeyCode.UpArrow)) board.SetBoardPosition("rnbqkbnr/pp3ppp/2p1p3/3p4/3P4/2P1P3/PP3PPP/RNBQKBNR");
+        if (Input.GetKeyUp(KeyCode.UpArrow)) board.SetBoardPosition("rnbqkbnr/pp3ppp/2p1p3/3p4/3P4/2P1P3/PP3PPP/RNBQKBNR hjhgljg hjvhj");
+    }
+
+    void OnDisable()
+    {
+        cellGenerator.OnActionFigureWasPlaced -= OnActionFigureWasPlacedHandler;
+        board.OnActionFigureLifted -= OnActionFigureLiftedHandler;
+    }
+
+    void OnEnable()
+    {
+        cellGenerator.OnActionFigureWasPlaced += OnActionFigureWasPlacedHandler;
+        board.OnActionFigureLifted += OnActionFigureLiftedHandler;
     }
 
 
-}
-
-
-public enum Role
-{
-    King,
-    Queen,
-    Rook,
-    Bishop,
-    Knight,
-    pawn
 }
 
 public enum CellName
