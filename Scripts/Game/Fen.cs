@@ -10,7 +10,7 @@ public class Fen
 
     public string StartPosition()
     {
-        return "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
+        return "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w";
     }
 
     private string getBoardPosition {

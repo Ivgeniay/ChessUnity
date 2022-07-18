@@ -5,19 +5,6 @@ namespace MonoSinglentons
 {
     public sealed class Instant : MonoBehaviour
     {
-        // private static Instant _instance;
-        // private static Instant instance {
-        //     get {
-        //         if (_instance == null)
-        //         {
-        //             var go = new GameObject("[MonoInstantiate]");
-        //             _instance = go.AddComponent<Instant>();
-        //             DontDestroyOnLoad(go);
-        //         }
-        //         return _instance;
-        //     }
-        // }
-
 
         public static GameObject InstantiateNewGO()
         {
@@ -52,12 +39,6 @@ namespace MonoSinglentons
             var go = GameObject.Instantiate(origin, parent);
             return go;
         }
-        // public static GameObject InstantiateNewGO(GameObject origin, Transform parent)
-        // {
-        //     var go = GameObject.Instantiate(origin, Vector3.zero, Quaternion.identity, parent);
-        //     return go;
-        // }
-
 
     }
 }

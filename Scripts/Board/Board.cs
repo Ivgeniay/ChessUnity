@@ -8,7 +8,7 @@ using System.Collections;
 public class Board : MonoBehaviour
 {
     public event Action<Figure> OnActionFigureLifted;
-    public ResourcesChess resources;
+    private ResourcesChess resources;
     public List<Figure> figureList;
 
     void Start()
@@ -47,17 +47,15 @@ public class Board : MonoBehaviour
 
         return report;
     }
-
-
     public void SetBoardPosition(string position)
     {
+        deleteAllFigures();
         StartCoroutine(setBoardPosition(position));
     }
 
+
     private IEnumerator setBoardPosition(string position)
     {
-        deleteAllFigures();
-
         yield return null;
 
         var array = parseString(position);
@@ -69,7 +67,6 @@ public class Board : MonoBehaviour
             createLineFigure(code, line); 
         }
     }
-
     private string separate(FigureConfig conf, string CellName)
     {
         string report = "";
@@ -166,7 +163,7 @@ public class Board : MonoBehaviour
 
         return result;
     }
-    public void deleteAllFigures()
+    private void deleteAllFigures()
     {
         foreach(Transform child in transform)
         {
@@ -215,7 +212,6 @@ public class Board : MonoBehaviour
         }
 
     }
-
     public void createFig(string position, string figure)
     {
         var newfig = CreateNewFigure.New(position, figure);
