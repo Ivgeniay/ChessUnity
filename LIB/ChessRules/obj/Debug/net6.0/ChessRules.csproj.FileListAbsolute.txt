@@ -1,0 +1,12 @@
+D:\Programming\Projects\Libraries\ChessRules\ChessRules\bin\Debug\net6.0\ChessRules.deps.json
+D:\Programming\Projects\Libraries\ChessRules\ChessRules\bin\Debug\net6.0\ChessRules.dll
+D:\Programming\Projects\Libraries\ChessRules\ChessRules\bin\Debug\net6.0\ChessRules.pdb
+D:\Programming\Projects\Libraries\ChessRules\ChessRules\obj\Debug\net6.0\ChessRules.csproj.AssemblyReference.cache
+D:\Programming\Projects\Libraries\ChessRules\ChessRules\obj\Debug\net6.0\ChessRules.GeneratedMSBuildEditorConfig.editorconfig
+D:\Programming\Projects\Libraries\ChessRules\ChessRules\obj\Debug\net6.0\ChessRules.AssemblyInfoInputs.cache
+D:\Programming\Projects\Libraries\ChessRules\ChessRules\obj\Debug\net6.0\ChessRules.AssemblyInfo.cs
+D:\Programming\Projects\Libraries\ChessRules\ChessRules\obj\Debug\net6.0\ChessRules.csproj.CoreCompileInputs.cache
+D:\Programming\Projects\Libraries\ChessRules\ChessRules\obj\Debug\net6.0\ChessRules.dll
+D:\Programming\Projects\Libraries\ChessRules\ChessRules\obj\Debug\net6.0\refint\ChessRules.dll
+D:\Programming\Projects\Libraries\ChessRules\ChessRules\obj\Debug\net6.0\ChessRules.pdb
+D:\Programming\Projects\Libraries\ChessRules\ChessRules\obj\Debug\net6.0\ref\ChessRules.dll
