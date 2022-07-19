@@ -3,7 +3,6 @@ using UnityEngine;
 
 public abstract class FigureRule : MonoBehaviour
 {
-
     protected Directional[] DirectionMove { get; set;}
     protected Directional[] AttackDirection { get; set;}
     protected int maxDistanceMove {get; set;}
@@ -11,7 +10,6 @@ public abstract class FigureRule : MonoBehaviour
     public abstract void GetOnField (string cellName);
     protected abstract bool Move(string cellName);
     protected abstract bool Attack(string cellName);
-
 
 }
 

@@ -1,7 +1,8 @@
 public enum Directional
 {
     none,
-    difficult,
+    diagonal,
+    special,
     North,
     NorthEast,
     East,

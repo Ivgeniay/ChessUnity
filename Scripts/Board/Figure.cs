@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -14,6 +15,7 @@ public class Figure : MonoBehaviour, IFigure
     private RectTransform figureRectTransform;
     private float sizing = 1.8f;
     public bool isMooved { get; set; } = false;
+    private List<Cell> MoveableСells = new List<Cell>();
 
     private void Awake()
     {
@@ -23,6 +25,21 @@ public class Figure : MonoBehaviour, IFigure
         figureRectTransform = gameObject.GetComponent<RectTransform>();
     }
 
+    public void OnBeginDrag(PointerEventData eventData)
+    {
+        canvasGroup.blocksRaycasts = false;
+        OnActionFigureLifted?.Invoke(this);
+        fillingListAvailableCells();
+    }
+    public void OnDrag(PointerEventData eventData)
+    {
+        figureRectTransform.anchoredPosition += eventData.delta / mainCanvas.scaleFactor;
+    }
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        transform.localPosition = Vector3.zero;
+        canvasGroup.blocksRaycasts = true;
+    }
     public void Appoint(FigureConfig figureConfig)
     {
         this.figureConfig = figureConfig;
@@ -37,19 +54,18 @@ public class Figure : MonoBehaviour, IFigure
         image.sprite = _img;
     }
 
-    public void OnBeginDrag(PointerEventData eventData)
+    private void fillingListAvailableCells()
     {
-        canvasGroup.blocksRaycasts = false;
-        OnActionFigureLifted?.Invoke(this);
+        MoveableСells = RoleRules.GetAvailableCells(this);
+        foreach(Cell e in MoveableСells)
+        {
+            Debug.Log($"Cell {e.transform.name} is avalible");
+        }
     }
-    public void OnDrag(PointerEventData eventData)
+
+    private void clearAvailableCells()
     {
-        figureRectTransform.anchoredPosition += eventData.delta / mainCanvas.scaleFactor;
-    }
-    public void OnEndDrag(PointerEventData eventData)
-    {
-        transform.localPosition = Vector3.zero;
-        canvasGroup.blocksRaycasts = true;
+        MoveableСells.Clear();
     }
 }
 

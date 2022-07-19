@@ -17,7 +17,6 @@ public class RoleRulesTests
         //RoleRules.canMove(figure, )
 
 
-
         Assert.IsTrue(!figure.isMooved);
     }
 

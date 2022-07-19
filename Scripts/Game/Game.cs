@@ -24,12 +24,12 @@ public class Game : MonoBehaviour
 
     private void OnActionFigureLiftedHandler(Figure obj)
     {
-        Debug.Log(obj.name + " from " + obj.transform.parent.name);
+        //Debug.Log(obj.name + " from " + obj.transform.parent.name);
     }
 
     private void OnActionFigureWasPlacedHandler(Figure obj)
     {
-        Debug.Log(obj.name + " to " + obj.transform.parent.name);
+        //Debug.Log(obj.name + " to " + obj.transform.parent.name);
     }
 
   private void Update() 
