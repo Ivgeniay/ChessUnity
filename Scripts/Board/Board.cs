@@ -1,15 +1,23 @@
+using System.Numerics;
+using System.Net.Mime;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
 using System.Collections;
+using UnityEngine.UI;
 
 //Board keep statement
 public class Board : MonoBehaviour
 {
     public event Action<Figure> OnActionFigureLifted;
-    private ResourcesChess resources;
     public List<Figure> figureList;
+    private ResourcesChess resources;
+    
+    void Awake()
+    {
+
+    }
 
     void Start()
     {
@@ -52,8 +60,6 @@ public class Board : MonoBehaviour
         deleteAllFigures();
         StartCoroutine(setBoardPosition(position));
     }
-
-
     private IEnumerator setBoardPosition(string position)
     {
         yield return null;
@@ -230,6 +236,7 @@ public class Board : MonoBehaviour
     {
         OnActionFigureLifted?.Invoke(obj);
     }
+
 
 
 }

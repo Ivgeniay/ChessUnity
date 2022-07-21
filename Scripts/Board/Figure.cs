@@ -15,6 +15,7 @@ public class Figure : MonoBehaviour, IFigure
     private RectTransform figureRectTransform;
     private float sizing = 1.8f;
     public bool isMooved { get; set; } = false;
+    public bool isInGame { get; set; } = true;
     private List<Cell> MoveableСells = new List<Cell>();
 
     private void Awake()
@@ -27,6 +28,7 @@ public class Figure : MonoBehaviour, IFigure
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        if (!isInGame) return;
         canvasGroup.blocksRaycasts = false;
         OnActionFigureLifted?.Invoke(this);
         fillingListAvailableCells();
@@ -37,6 +39,7 @@ public class Figure : MonoBehaviour, IFigure
     }
     public void OnEndDrag(PointerEventData eventData)
     {
+        clearAvailableCells();
         transform.localPosition = Vector3.zero;
         canvasGroup.blocksRaycasts = true;
     }
@@ -59,13 +62,28 @@ public class Figure : MonoBehaviour, IFigure
         MoveableСells = RoleRules.GetAvailableCells(this);
         foreach(Cell e in MoveableСells)
         {
+            e.gameObject.GetComponent<Image>().color = new Color32 (0, 255, 0, 150);
             Debug.Log($"Cell {e.transform.name} is avalible");
         }
     }
 
     private void clearAvailableCells()
     {
+        foreach(Cell e in MoveableСells)
+        {
+            e.gameObject.GetComponent<Image>().color = new Color32 (255, 255, 255, 0);
+        }
         MoveableСells.Clear();
+    }
+
+    public bool isCellInTheTempList(Cell cell)
+    {
+        foreach(Cell e in MoveableСells)
+        {
+            if (cell.Equals(e))
+                return true;
+        }
+        return false;
     }
 }
 
